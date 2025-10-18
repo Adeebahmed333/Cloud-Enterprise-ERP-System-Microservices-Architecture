@@ -1,40 +1,114 @@
 {
   "name": "enterprise-erp-system",
   "version": "1.0.0",
-  "description": "Enterprise Cloud ERP System with Real-Time Analytics",
+  "description": "Enterprise Cloud ERP System with Real-Time Analytics and Microservices Architecture",
   "private": true,
   "workspaces": [
-    "services/*",
+    "services/auth-service",
+    "services/user-service",
+    "services/inventory-service",
+    "services/order-service",
+    "services/analytics-service",
     "api-gateway",
     "frontend",
-    "shared/*"
+    "shared/utils",
+    "shared/types",
+    "shared/constants"
   ],
   "scripts": {
-    "install:all": "npm install && npm run install:services && npm run install:gateway && npm run install:frontend",
-    "install:services": "npm install --workspace=services/auth-service --workspace=services/user-service --workspace=services/inventory-service --workspace=services/order-service --workspace=services/analytics-service",
-    "install:gateway": "npm install --workspace=api-gateway",
-    "install:frontend": "npm install --workspace=frontend",
+    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') !== -1) throw new Error('Please use npm for this project')\"",
+    
+    "install:all": "npm install && npm install --workspaces",
+    
+    "dev": "concurrently -n \"gateway,auth,user,inventory,order,analytics,frontend\" -c \"blue,green,yellow,magenta,cyan,red,white\" \"npm run dev:gateway\" \"npm run dev:auth\" \"npm run dev:user\" \"npm run dev:inventory\" \"npm run dev:order\" \"npm run dev:analytics\" \"npm run dev:frontend\"",
+    
+    "dev:gateway": "npm run dev --workspace=api-gateway",
     "dev:auth": "npm run dev --workspace=services/auth-service",
     "dev:user": "npm run dev --workspace=services/user-service",
     "dev:inventory": "npm run dev --workspace=services/inventory-service",
     "dev:order": "npm run dev --workspace=services/order-service",
     "dev:analytics": "npm run dev --workspace=services/analytics-service",
-    "dev:gateway": "npm run dev --workspace=api-gateway",
     "dev:frontend": "npm run dev --workspace=frontend",
-    "dev:all": "concurrently \"npm run dev:auth\" \"npm run dev:user\" \"npm run dev:inventory\" \"npm run dev:order\" \"npm run dev:analytics\" \"npm run dev:gateway\" \"npm run dev:frontend\"",
-    "build:all": "npm run build --workspaces",
-    "test:all": "npm run test --workspaces",
-    "docker:dev": "docker-compose -f infrastructure/docker/docker-compose.dev.yml up",
-    "docker:prod": "docker-compose -f infrastructure/docker/docker-compose.prod.yml up",
-    "docker:build": "docker-compose -f infrastructure/docker/docker-compose.prod.yml build"
+    
+    "build": "npm run build --workspaces",
+    "build:services": "npm run build --workspace=services/auth-service --workspace=services/user-service --workspace=services/inventory-service --workspace=services/order-service --workspace=services/analytics-service",
+    "build:gateway": "npm run build --workspace=api-gateway",
+    "build:frontend": "npm run build --workspace=frontend",
+    
+    "start": "concurrently -n \"gateway,auth,user,inventory,order,analytics\" -c \"blue,green,yellow,magenta,cyan,red\" \"npm run start --workspace=api-gateway\" \"npm run start --workspace=services/auth-service\" \"npm run start --workspace=services/user-service\" \"npm run start --workspace=services/inventory-service\" \"npm run start --workspace=services/order-service\" \"npm run start --workspace=services/analytics-service\"",
+    
+    "test": "npm run test --workspaces",
+    "test:unit": "npm run test:unit --workspaces",
+    "test:integration": "npm run test:integration --workspaces",
+    "test:e2e": "npm run test:e2e --workspace=tests",
+    "test:coverage": "npm run test:coverage --workspaces",
+    
+    "lint": "npm run lint --workspaces",
+    "lint:fix": "npm run lint:fix --workspaces",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    
+    "docker:build": "docker-compose -f infrastructure/docker/docker-compose.yml build",
+    "docker:up": "docker-compose -f infrastructure/docker/docker-compose.yml up -d",
+    "docker:down": "docker-compose -f infrastructure/docker/docker-compose.yml down",
+    "docker:logs": "docker-compose -f infrastructure/docker/docker-compose.yml logs -f",
+    "docker:ps": "docker-compose -f infrastructure/docker/docker-compose.yml ps",
+    "docker:restart": "docker-compose -f infrastructure/docker/docker-compose.yml restart",
+    "docker:clean": "docker-compose -f infrastructure/docker/docker-compose.yml down -v --remove-orphans",
+    
+    "db:migrate": "node scripts/db/migrate.js",
+    "db:seed": "node scripts/db/seed.js",
+    "db:reset": "npm run db:migrate && npm run db:seed",
+    "db:backup": "node scripts/db/backup.js",
+    
+    "logs:clear": "rm -rf logs/*.log",
+    "cache:clear": "node scripts/clear-cache.js",
+    
+    "prepare": "husky install",
+    "postinstall": "echo '\n✅ Installation complete! Run: npm run docker:up to start databases\n'"
   },
   "devDependencies": {
+    "@types/node": "^20.11.5",
     "concurrently": "^8.2.2",
-    "eslint": "^8.57.0",
-    "prettier": "^3.2.5"
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/enterprise-erp-system.git"
+  },
+  "keywords": [
+    "erp",
+    "enterprise",
+    "microservices",
+    "nodejs",
+    "react",
+    "postgresql",
+    "mongodb",
+    "redis",
+    "docker",
+    "real-time-analytics"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
 }
