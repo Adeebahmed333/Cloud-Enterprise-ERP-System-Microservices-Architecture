@@ -1,42 +1,64 @@
 # Dependencies
 node_modules/
 */node_modules/
+**/node_modules/
 
 # Environment variables
 .env
 .env.local
 .env.*.local
 *.env
+!.env.example
 
 # Logs
 logs/
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Build outputs
 dist/
 build/
 */dist/
 */build/
+**/dist/
+**/build/
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*.sublime-*
 
 # OS
 .DS_Store
 Thumbs.db
+.AppleDouble
+.LSOverride
 
 # Testing
 coverage/
 .nyc_output/
+*.lcov
 
 # Docker
 *.pid
 *.seed
+.dockerignore
 
 # Temporary files
 tmp/
 temp/
+*.tmp
+
+# Database
+*.sql.backup
+pgdata/
+mongodata/
+redisdata/
+
+# Uploads
+uploads/
+public/uploads/
