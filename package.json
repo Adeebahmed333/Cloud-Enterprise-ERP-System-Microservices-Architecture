@@ -1,0 +1,40 @@
+{
+  "name": "enterprise-erp-system",
+  "version": "1.0.0",
+  "description": "Enterprise Cloud ERP System with Real-Time Analytics",
+  "private": true,
+  "workspaces": [
+    "services/*",
+    "api-gateway",
+    "frontend",
+    "shared/*"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:services && npm run install:gateway && npm run install:frontend",
+    "install:services": "npm install --workspace=services/auth-service --workspace=services/user-service --workspace=services/inventory-service --workspace=services/order-service --workspace=services/analytics-service",
+    "install:gateway": "npm install --workspace=api-gateway",
+    "install:frontend": "npm install --workspace=frontend",
+    "dev:auth": "npm run dev --workspace=services/auth-service",
+    "dev:user": "npm run dev --workspace=services/user-service",
+    "dev:inventory": "npm run dev --workspace=services/inventory-service",
+    "dev:order": "npm run dev --workspace=services/order-service",
+    "dev:analytics": "npm run dev --workspace=services/analytics-service",
+    "dev:gateway": "npm run dev --workspace=api-gateway",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:all": "concurrently \"npm run dev:auth\" \"npm run dev:user\" \"npm run dev:inventory\" \"npm run dev:order\" \"npm run dev:analytics\" \"npm run dev:gateway\" \"npm run dev:frontend\"",
+    "build:all": "npm run build --workspaces",
+    "test:all": "npm run test --workspaces",
+    "docker:dev": "docker-compose -f infrastructure/docker/docker-compose.dev.yml up",
+    "docker:prod": "docker-compose -f infrastructure/docker/docker-compose.prod.yml up",
+    "docker:build": "docker-compose -f infrastructure/docker/docker-compose.prod.yml build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
