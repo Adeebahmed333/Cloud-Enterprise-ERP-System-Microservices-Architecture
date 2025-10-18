@@ -2,7 +2,7 @@
 
 A comprehensive cloud-based enterprise resource planning system with real-time analytics and predictive capabilities.
 
-## ÌøóÔ∏è Architecture
+## Architecture
 
 - **Microservices**: 5 independent services
 - **API Gateway**: Centralized routing and authentication
@@ -10,7 +10,7 @@ A comprehensive cloud-based enterprise resource planning system with real-time a
 - **Databases**: PostgreSQL, MongoDB, Redis
 - **Cloud**: AWS deployment with Docker containers
 
-## Ì≥¶ Services
+## Services
 
 1. **Auth Service** (Port 3001) - JWT authentication, session management
 2. **User Service** (Port 3002) - User management, RBAC
@@ -18,7 +18,7 @@ A comprehensive cloud-based enterprise resource planning system with real-time a
 4. **Order Service** (Port 3004) - Order processing, fulfillment
 5. **Analytics Service** (Port 3005) - Real-time analytics, reporting
 
-## Ì∫Ä Quick Start
+## Quick Start
 
 ### Development with Docker (Recommended)
 ```bash
@@ -38,13 +38,13 @@ npm run install:all
 npm run dev:all
 ```
 
-## Ì≥ö Documentation
+## Documentation
 
 - [API Documentation](./docs/api/)
 - [Architecture Guide](./docs/architecture/)
 - [Deployment Guide](./docs/deployment/)
 
-## Ì¥ß Technologies
+## Technologies
 
 - **Backend**: Node.js, Express.js
 - **Frontend**: React.js, Chart.js, D3.js
@@ -52,6 +52,6 @@ npm run dev:all
 - **Cloud**: AWS EC2, S3, RDS
 - **DevOps**: Docker, Kubernetes, Terraform
 
-## Ì≥Ñ License
+## License
 
 MIT
