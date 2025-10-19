@@ -39,7 +39,7 @@ const redisClient = redis.createClient({
         host: process.env.REDIS_HOST || 'localhost',
         port: parseInt(process.env.REDIS_PORT, 10) || 6379,
     },
-    password: '',
+    password: process.env.REDIS_PASSWORD || 'erp_secure_password_123',
     database: parseInt(process.env.REDIS_DB) || 0,
 });
 

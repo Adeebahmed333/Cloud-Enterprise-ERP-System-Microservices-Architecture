@@ -151,7 +151,7 @@ app.use((err, req, res, next) => {
 /**
  * Start Server
  */
-app.listen(PORT, () => {
+const server=app.listen(PORT, () => {
   console.log('╔════════════════════════════════════════════════════════════╗');
   console.log('║        🔐 Authentication Service Started                  ║');
   console.log('╚════════════════════════════════════════════════════════════╝');
