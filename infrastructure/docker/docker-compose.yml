@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: erp_admin
       POSTGRES_PASSWORD: erp_secure_password_123
       POSTGRES_DB: erp_database
-      POSTGRES_HOST_AUTH_METHOD: trust
+      #POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "5432:5432"
     volumes:
