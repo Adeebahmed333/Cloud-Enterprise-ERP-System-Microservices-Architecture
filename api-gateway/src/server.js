@@ -25,9 +25,6 @@ app.use(cors({
 /**
  * Body Parser
  */
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
 /**
  * Request Logging
  */
@@ -101,6 +98,9 @@ Object.keys(services).forEach(key => {
     app.use(service.prefix, serviceProxies[key]);
     logger.info(`Registered route: ${service.prefix} → ${service.url}`);
 });
+
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 /**
  * 404 Handler
